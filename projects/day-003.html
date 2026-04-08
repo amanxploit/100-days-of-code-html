@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple To-Do List</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin: 0 15px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        #add-btn {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #add-btn:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .todo-text {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .todo-text.completed {
+            text-decoration: line-through;
+            color: #adb5bd;
+        }
+
+        .delete-btn {
+            background-color: #fff0f0;
+            color: #ff4d4d;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff4d4d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>My Tasks</h1>
+    <div class="input-group">
+        <input type="text" id="todo-input" placeholder="Add a new task..." autocomplete="off">
+        <button id="add-btn">Add</button>
+    </div>
+    <ul id="todo-list"></ul>
+</div>
+
+<script>
+    const input = document.getElementById('todo-input');
+    const addBtn = document.getElementById('add-btn');
+    const todoList = document.getElementById('todo-list');
+
+    let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+    function save() {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    function render() {
+        todoList.innerHTML = '';
+        todos.forEach((todo, index) => {
+            const li = document.createElement('li');
+            
+            const span = document.createElement('span');
+            span.className = `todo-text ${todo.completed ? 'completed' : ''}`;
+            span.textContent = todo.text;
+            span.onclick = () => toggleTodo(index);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = 'delete-btn';
+            delBtn.textContent = 'Delete';
+            delBtn.onclick = () => deleteTodo(index);
+
+            li.appendChild(span);
+            li.appendChild(delBtn);
+            todoList.appendChild(li);
+        });
+    }
+
+    function addTodo() {
+        const text = input.value.trim();
+        if (text !== '') {
+            todos.push({ text, completed: false });
+            input.value = '';
+            save();
+            render();
+        }
+    }
+
+    function toggleTodo(index) {
+        todos[index].completed = !todos[index].completed;
+        save();
+        render();
+    }
+
+    function deleteTodo(index) {
+        todos.splice(index, 1);
+        save();
+        render();
+    }
+
+    addBtn.addEventListener('click', addTodo);
+
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addTodo();
+        }
+    });
+
+    render();
+</script>
+
+</body>
+</html>
