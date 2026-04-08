@@ -1,0 +1,408 @@
+<!DOCTYPE html>`, `<html>`, `<head>`, `<body>`.
+    *   CSS (embedded in `<style>`):
+        *   Reset/Box-sizing.
+        *   Body: Flexbox centering, light background, system font stack.
+        *   Calculator Container: Card-like, shadow, white background, rounded corners, max-width.
+        *   Display: Large text, right-aligned, padding, border/background.
+        *   Buttons Grid: `display: grid`, `grid-template-columns: repeat(4, 1fr)`, gap.
+        *   Button Styling: Rounded, hover effects, distinct colors for operators/equals.
+    *   HTML Content:
+        *   Div `.calculator`.
+        *   Div `.display` (input or div).
+        *   Div `.buttons`.
+    *   JavaScript (embedded in `<script>`):
+        *   Functionality to handle clicks.
+        *   Basic operations: +, -, *, /, clear, delete.
+        *   `eval()` is the simplest for a small project, or a more robust approach. Given "Basic calculator app", a simple logic using `eval` (safely handled or just for a small demo) or a manual parser is standard. I'll use a simple function to update display and calculate.
+
+    *   *HTML Structure*:
+        <div class="calculator">
+            <div id="display" class="display">0</div>
+            <div class="buttons">
+                <!-- buttons -->
+            </div>
+        </div>
+        *   *CSS*:
+        *   Background: `#f4f4f9`.
+        *   Calculator: White, `box-shadow: 0 10px 25px rgba(0,0,0,0.1)`.
+        *   Buttons: Light grey for numbers, subtle accent for operators.
+
+    *   *JavaScript logic*:
+        *   `currentInput` string.
+        *   `updateDisplay()`
+        *   `appendNumber(n)`
+        *   `appendOperator(op)`
+        *   `calculate()`
+        *   `clearDisplay()`
+
+    *   Ensure no markdown backticks.
+    *   Ensure it starts with `<` and ends with `>`.
+
+    *   *Drafting the code...*
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Day 4: Calculator</title>
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+            body { background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+            .calculator { width: 100%; max-width: 320px; background: #ffffff; padding: 20px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+            .display { width: 100%; height: 80px; background: #f8f9fa; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: flex-end; padding: 0 20px; font-size: 2rem; color: #333; overflow: hidden; white-space: nowrap; }
+            .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+            button { border: none; height: 60px; border-radius: 16px; font-size: 1.2rem; font-weight: 500; cursor: pointer; transition: all 0.2s; background: #f1f3f5; color: #495057; }
+            button:hover { background: #e9ecef; }
+            button:active { transform: scale(0.95); }
+            .operator { background: #e7f5ff; color: #228be6; }
+            .operator:hover { background: #d0ebff; }
+            .equals { background: #228be6; color: white; grid-column: span 2; }
+            .equals:hover { background: #1c7ed6; }
+            .clear { background: #fff5f5; color: #fa5252; }
+            .clear:hover { background: #ffe3e3; }
+        </style>
+    </head>
+    <body>
+        <div class="calculator">
+            <div class="display" id="display">0</div>
+            <div class="buttons">
+                <button class="clear" onclick="clearDisplay()">C</button>
+                <button class="operator" onclick="appendValue('/')">÷</button>
+                <button class="operator" onclick="appendValue('*')">×</button>
+                <button class="operator" onclick="deleteLast()">⌫</button>
+                <button onclick="appendValue('7')">7</button>
+                <button onclick="appendValue('8')">8</button>
+                <button onclick="appendValue('9')">9</button>
+                <button class="operator" onclick="appendValue('-')">−</button>
+                <button onclick="appendValue('4')">4</button>
+                <button onclick="appendValue('5')">5</button>
+                <button onclick="appendValue('6')">6</button>
+                <button class="operator" onclick="appendValue('+')">+</button>
+                <button onclick="appendValue('1')">1</button>
+                <button onclick="appendValue('2')">2</button>
+                <button onclick="appendValue('3')">3</button>
+                <button onclick="appendValue('.')">.</button>
+                <button onclick="appendValue('0')">0</button>
+                <button class="equals" onclick="calculate()">=</button>
+            </div>
+        </div>
+        <script>
+            let displayValue = '0';
+            const displayElement = document.getElementById('display');
+
+            function updateDisplay() {
+                displayElement.innerText = displayValue;
+            }
+
+            function appendValue(val) {
+                if (displayValue === '0' && !isNaN(val)) {
+                    displayValue = val;
+                } else {
+                    displayValue += val;
+                }
+                updateDisplay();
+            }
+
+            function clearDisplay() {
+                displayValue = '0';
+                updateDisplay();
+            }
+
+            function deleteLast() {
+                if (displayValue.length > 1) {
+                    displayValue = displayValue.slice(0, -1);
+                } else {
+                    displayValue = '0';
+                }
+                updateDisplay();
+            }
+
+            function calculate() {
+                try {
+                    // Replace visual symbols with math symbols if necessary
+                    // (Though I used actual math symbols in the code for simplicity)
+                    let result = eval(displayValue);
+                    displayValue = String(Number(result.toFixed(8))); // Handle floating point issues
+                    updateDisplay();
+                } catch (e) {
+                    displayValue = 'Error';
+                    updateDisplay();
+                    setTimeout(clearDisplay, 1500);
+                }
+            }
+        </script>
+    </body>
+    </html>
+    *   Raw HTML? Yes.
+    *   No markdown? Yes.
+    *   No explanation? Yes.
+    *   Starts with `<`? Yes.
+    *   Ends with `>`? Yes.
+    *   Clean/Minimal/White? Yes.
+    *   Responsive? Yes (max-width/flex).
+
+    *Wait, I need to ensure the `eval` doesn't break on symbols like '×' or '÷'. I'll use '*' and '/' in the values passed to the function.*
+
+    *Refined Buttons:*
+    `onclick="appendValue('/')"` (using standard math symbols in display for visual but function calls are math-compatible).
+
+    Let's check the button logic:
+    `button class="operator" onclick="appendValue('/')">÷</button>`
+    The `displayValue` is getting the `/`. The `displayElement.innerText` will show `/`. If I want it to look pretty (like `÷`), I'd need a mapping. But for a "Basic calculator", simple symbols are fine. I will use `*` and `/` in logic and let them show as is, or map them. Mapping them makes it "Clean/Minimal".
+
+    Actually, let's keep it simple: `appendValue('/')` adds `/` to the string. The string is evaluated. The display shows `/`.
+
+    *Self-Correction on "Clean/Minimal":* Use high-quality spacing and typography.
+
+    *Final check on the prompt requirements:*
+    - Day 4: Calculator.
+    - Basic calculator app.
+    - Clean, minimal, white/light theme, system fonts, responsive.
+
+    Let's generate the code.<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 4: Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 340px;
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        .display {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 10px 15px;
+            word-break: break-all;
+            overflow: hidden;
+        }
+
+        #previous-operand {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+            min-height: 1.5rem;
+        }
+
+        #current-operand {
+            color: #1a1a1a;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        button {
+            height: 64px;
+            border-radius: 20px;
+            border: none;
+            font-size: 1.3rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        button:hover {
+            background-color: #f1f3f5;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .operator {
+            color: #339af0;
+            background-color: #e7f5ff;
+        }
+
+        .operator:hover {
+            background-color: #d0ebff;
+        }
+
+        .action {
+            color: #fa5252;
+            background-color: #fff5f5;
+        }
+
+        .action:hover {
+            background-color: #ffe3e3;
+        }
+
+        .equals {
+            background-color: #339af0;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equals:hover {
+            background-color: #228be6;
+        }
+
+        @media (max-width: 360px) {
+            .calculator {
+                padding: 16px;
+            }
+            button {
+                height: 56px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <div class="display">
+            <div id="previous-operand"></div>
+            <div id="current-operand">0</div>
+        </div>
+        <div class="buttons">
+            <button class="action" onclick="clearDisplay()">AC</button>
+            <button class="action" onclick="deleteNumber()">DEL</button>
+            <button class="operator" onclick="appendOperator('/')">÷</button>
+            <button class="operator" onclick="appendOperator('*')">×</button>
+            
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('-')">−</button>
+            
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+            
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendNumber('.')">.</button>
+            
+            <button onclick="appendNumber('0')">0</button>
+            <button class="equals" onclick="compute()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let currentOperand = '0';
+        let previousOperand = '';
+        let operation = undefined;
+
+        const currentTextElement = document.getElementById('current-operand');
+        const previousTextElement = document.getElementById('previous-operand');
+
+        function clearDisplay() {
+            currentOperand = '0';
+            previousOperand = '';
+            operation = undefined;
+            updateDisplay();
+        }
+
+        function deleteNumber() {
+            if (currentOperand === '0') return;
+            if (currentOperand.length === 1) {
+                currentOperand = '0';
+            } else {
+                currentOperand = currentOperand.toString().slice(0, -1);
+            }
+            updateDisplay();
+        }
+
+        function appendNumber(number) {
+            if (number === '.' && currentOperand.includes('.')) return;
+            if (currentOperand === '0' && number !== '.') {
+                currentOperand = number.toString();
+            } else {
+                currentOperand = currentOperand.toString() + number.toString();
+            }
+            updateDisplay();
+        }
+
+        function appendOperator(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') {
+                compute();
+            }
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = '';
+            updateDisplay();
+        }
+
+        function compute() {
+            let computation;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+            if (isNaN(prev) || isNaN(current)) return;
+
+            switch (operation) {
+                case '+':
+                    computation = prev + current;
+                    break;
+                case '-':
+                    computation = prev - current;
+                    break;
+                case '*':
+                    computation = prev * current;
+                    break;
+                case '/':
+                    computation = prev / current;
+                    break;
+                default:
+                    return;
+            }
+
+            currentOperand = computation.toString();
+            operation = undefined;
+            previousOperand = '';
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            currentTextElement.innerText = currentOperand;
+            if (operation != null) {
+                let opSymbol = operation;
+                if(opSymbol === '*') opSymbol = '×';
+                if(opSymbol === '/') opSymbol = '÷';
+                if(opSymbol === '-') opSymbol = '−';
+                if(opSymbol === '+') opSymbol = '+';
+                previousTextElement.innerText = `${previousOperand} ${opSymbol}`;
+            } else {
+                previousTextElement.innerText = '';
+            }
+        }
+    </script>
+</body>
+</html>

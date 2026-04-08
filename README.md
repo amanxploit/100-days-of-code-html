@@ -74,3 +74,4 @@ Consistency > Perfection
 | 1 | **Personal Portfolio** | Create a responsive personal portfolio with HTML/CSS | beginner |
 | 2 | **Digital Clock** | Real-time digital clock with JavaScript | beginner |
 | 3 | To-Do List | Simple todo list with local storage | beginner |
+| 4 | Calculator | Basic calculator app |
