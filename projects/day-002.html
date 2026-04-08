@@ -1,428 +1,141 @@
-*   Project: Digital Clock (Day 2).
-    *   Tech: HTML, CSS, JS in one file.
-    *   Style: Clean, minimal, professional, light/white theme, subtle colors, responsive, mobile-first.
-    *   Constraints: No complex animations, no glassmorphism, no heavy gradients, use system fonts, simple Flexbox/Grid, basic hover effects only, well-commented.
-    *   Output: ONLY the complete HTML code (no markdown, no explanations).
+Day 2: Digital Clock.
+Clean, minimal, professional, light/white theme, responsive, single-file (HTML/CSS/JS), modern but minimal, system fonts, Flexbox/Grid, basic hover effects, well-commented.
+Real-time digital clock using JavaScript.
+Beginner.
+Complete HTML code only (no markdown, no explanation).
 
-    *   Container: Centered on screen.
-    *   Clock Display: Hours, Minutes, Seconds (HH:MM:SS).
-    *   Date Display: Day, Month, Year (optional but makes it professional).
-    *   Visuals: White background, light gray borders/shadows, dark gray/black text.
+    *   Background: Very light gray or white (`#f8f9fa` or `#ffffff`).
+    *   Clock Card: White background, subtle border or very light shadow, rounded corners.
+    *   Typography: Large, clear numbers. System fonts.
+    *   Color Palette: Dark text (`#333`), perhaps a soft accent color (soft blue or slate) for the time vs date distinction.
+    *   Layout: Centered in the viewport.
 
-    *   *Structure*:
-                <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Digital Clock</title>
-            <style>
-                /* CSS Here */
-            </style>
-        </head>
-        <body>
-            <div class="clock-container">
-                <div id="clock">00:00:00</div>
-                <div id="date">Monday, January 1, 2024</div>
-            </div>
-            <script>
-                /* JS Here */
-            </script>
-        </body>
-        </html>
-        
-    *   *CSS Details*:
-        - Reset: `box-sizing: border-box; margin: 0; padding: 0;`
-        - Body: `display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8f9fa; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;`
-        - Card: `background: white; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; border: 1px solid #eee;`
-        - Clock text: `font-size: 4rem; font-weight: 600; color: #212529; letter-spacing: -1px;`
-        - Date text: `font-size: 1.1rem; color: #6c757d; margin-top: 0.5rem;`
-        - Responsive: Media query for smaller screens to reduce font size.
+    *   `<!DOCTYPE html>`
+    *   `<head>`: Title, Meta viewport, Styles.
+    *   `<body>`: Container -> Clock Card -> Time Display, Date Display.
+    *   `<script>`: The logic.
 
-    *   *JS Details*:
-        - `setInterval` every 1000ms.
-        - `new Date()` object.
-        - Format time: `padStart(2, '0')`.
-        - Format date: `toLocaleDateString` options.
+    *   Reset: `box-sizing`, `margin: 0`, `padding: 0`.
+    *   Body: `display: flex`, `justify-content: center`, `align-items: center`, `min-height: 100vh`, `background-color: #f4f7f6`.
+    *   Card: `padding: 2rem`, `border-radius: 12px`, `background: #fff`, `box-shadow: 0 4px 6px rgba(0,0,0,0.05)`, `text-align: center`.
+    *   Time: `font-size: 4rem`, `font-weight: 600`, `letter-spacing: -1px`, `color: #2d3436`.
+    *   Date: `font-size: 1.2rem`, `color: #636e72`, `margin-top: 0.5rem`.
+    *   Media Queries: Scale down font size for small mobile screens.
 
-    *   "Keep it SIMPLE and CLEAN" - Check.
-    *   "Light/white theme" - Check.
-    *   "Responsive" - Check.
-    *   "All in one file" - Check.
-    *   "System fonts" - Check.
-    *   "No markdown" - Need to ensure I provide raw text only if the user specifically asked "Return ONLY the complete HTML code, no markdown formatting". *Correction: Usually, users asking for "no markdown" mean they want to copy-paste directly, but standard LLM behavior is providing markdown blocks. However, the prompt explicitly says "no markdown formatting". I will provide the raw code string.*
+    *   Function `updateClock()`:
+        *   `new Date()`
+        *   Extract hours, minutes, seconds.
+        *   Pad with leading zeros using `.padStart(2, '0')`.
+        *   Format: `HH:MM:SS`.
+        *   Format Date: `Day, Month DD, YYYY`.
+    *   `setInterval(updateClock, 1000)`.
+    *   Initial call so it doesn't wait 1 second to appear.
 
-    *Self-Correction on Output format:* "Return ONLY the complete HTML code, no markdown formatting, no explanations." This means I should not use  ... .
+    *   *Check Requirements:*
+        *   Single file? Yes.
+        *   Light theme? Yes.
+        *   Responsive? Yes.
+        *   System fonts? Yes.
+        *   No glassmorphism? Checked.
+        *   Well-commented? Will add.
 
-    *   Time: `hh:mm:ss`
-    *   Date: `weekday, month day, year`
-
-    *   Container: `display: flex; flex-direction: column; align-items: center; justify-content: center;`
-    *   Background: `#f4f7f6` (very light gray).
-    *   Clock Card: White background, soft shadow.
-    *   Font-size adjustment for mobile.
-
-    Wait, the instruction says "Return ONLY the complete HTML code, no markdown formatting". This is a bit tricky because providing raw code without the backticks can sometimes be interpreted as the model failing or being plain text. But I must follow the strict instruction.
-
-    *Wait, a note on "no markdown formatting"*: If I don't use markdown, the code will be rendered as plain text. This is what the user wants to avoid the extra text around it.
-
-    *Let's double check the requirement "No markdown formatting"*: Usually, this means the user wants to save the output directly as an .html file.
-
-    *Code Construction*:
-        <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Digital Clock</title>
-        <style>
-            /* Reset and Base Styles */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                background-color: #f8f9fa;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-                color: #333;
-            }
-
-            /* Clock Container */
-            .clock-card {
-                background-color: #ffffff;
-                padding: 3rem;
-                border-radius: 16px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-                border: 1px solid #eaeaea;
-                text-align: center;
-                width: 90%;
-                max-width: 450px;
-                transition: transform 0.2s ease;
-            }
-
-            /* Subtle hover effect */
-            .clock-card:hover {
-                transform: translateY(-2px);
-            }
-
-            /* Time Display */
-            #clock {
-                font-size: 4rem;
-                font-weight: 700;
-                color: #1a1a1a;
-                margin-bottom: 0.5rem;
-                letter-spacing: -2px;
-            }
-
-            /* Date Display */
-            #date {
-                font-size: 1.1rem;
-                color: #6c757d;
-                font-weight: 400;
-                letter-spacing: 0.5px;
-            }
-
-            /* Responsive Design */
-            @media (max-width: 480px) {
-                #clock {
-                    font-size: 3rem;
-                }
-                .clock-card {
-                    padding: 2rem;
-                }
-                #date {
-                    font-size: 1rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-
-        <div class="clock-card">
-            <div id="clock">00:00:00</div>
-            <div id="date">Loading...</div>
-        </div>
-
-        <script>
-            /**
-             * Updates the clock and date displayed on the screen
-             */
-            function updateClock() {
-                const now = new Date();
-
-                // Extract time components
-                let hours = now.getHours();
-                let minutes = now.getMinutes();
-                let seconds = now.getSeconds();
-
-                // Format components to always be two digits
-                hours = String(hours).padStart(2, '0');
-                minutes = String(minutes).padStart(2, '0');
-                seconds = String(seconds).padStart(2, '0');
-
-                // Update the time element
-                document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-
-                // Format and update the date element
-                const options = { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                };
-                document.getElementById('date').textContent = now.toLocaleDateString(undefined, options);
-            }
-
-            // Run updateClock every second
-            setInterval(updateClock, 1000);
-
-            // Run immediately on load to prevent 1-second delay
-            updateClock();
-        </script>
-    </body>
-    </html>
-    
-    *Check Requirements*:
-    - Simple/Clean? Yes.
-    - Light theme? Yes.
-    - Responsive? Yes.
-    - All in one file? Yes.
-    - Modern/Minimal? Yes.
-    - System fonts? Yes.
-    - Flexbox? Yes.
-    - Basic hover? Yes.
-    - Well-commented? Yes.
-    - No markdown? I will output the raw code without triple backticks.
-
-    *One final thought*: If I output raw code without backticks, some interfaces might strip newlines or treat it weirdly. However, the user explicitly requested "no markdown formatting". I will comply.
-
-    Wait, most users actually *want* the code block but say "no markdown" to mean "no text surrounding the code". But to be safe and follow the literal instruction "Return ONLY the complete HTML code, no markdown formatting", I will provide the raw text.
-
-    *Wait*, a nuance: If I provide it without markdown, it's just text. If the user is on a platform that uses markdown to render, they will see a wall of text. Usually, "no markdown" in prompting means "no preamble/postamble". I will interpret "no markdown formatting" as "don't wrap the code in  ...  blocks".
-
-    Actually, standard practice for "Return ONLY the code" is still using markdown blocks so the UI handles it correctly, but the instruction "no markdown formatting" is very specific. I will provide the raw content.
-
-    *Self-Correction*: If I don't use the code block, it's technically the most accurate way to follow "no markdown formatting".
-
-    Let's refine the design one last time.
-    - `clock-card` color: `#ffffff`
-    - `body` color: `#f8f9fa`
-    - `clock` text: `#1a1a1a`
-    - `date` text: `#6c757d`
-    - Font size: 4rem is big, maybe 3.5rem for balance.
-
-    Final check of the JS: `toLocaleDateString(undefined, options)` is great for accessibility/localization. `padStart` is modern and clean.
-
-    One detail: The prompt says "no markdown formatting". I'll provide the code plain.
-
-    *Note to self*: If the user wants to copy-paste, markdown code blocks are actually easier to use because of the "Copy" button. But I must follow the specific instruction.
-
-    *Let's assume the user wants the code to be the only thing in the response.*
-
-    Final Code Plan:
-    - HTML5 boilerplate.
-    - CSS in `<style>`.
-    - HTML structure: card -> clock, date.
-    - JS in `<script>`: setInterval(update, 1000).
-
-    Code structure is ready.
-
-        <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Digital Clock | Day 2</title>
-        <style>
-            /* Resetting default margins and padding */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            /* Center everything on the page using Flexbox */
-            body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                background-color: #fcfcfc; /* Light, clean background */
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-                color: #333;
-            }
-
-            /* Main container for the clock */
-            .clock-container {
-                background-color: #ffffff;
-                padding: 3rem 2.5rem;
-                border-radius: 12px;
-                border: 1px solid #eeeeee;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-                text-align: center;
-                width: 90%;
-                max-width: 400px;
-                transition: transform 0.3s ease;
-            }
-
-            /* Subtle hover effect for the card */
-            .clock-container:hover {
-                transform: translateY(-4px);
-            }
-
-            /* Time styling */
-            #clock {
-                font-size: 3.5rem;
-                font-weight: 600;
-                color: #111111;
-                margin-bottom: 0.5rem;
-                font-variant-numeric: tabular-nums; /* Keeps numbers from jumping */
-            }
-
-            /* Date styling */
-            #date {
-                font-size: 1rem;
-                color: #777777;
-                letter-spacing: 0.5px;
-                text-transform: uppercase;
-            }
-
-            /* Mobile responsiveness */
-            @media (max-width: 480px) {
-                #clock {
-                    font-size: 2.8rem;
-                }
-                .clock-container {
-                    padding: 2rem 1.5rem;
-                }
-                #date {
-                    font-size: 0.85rem;
-                }
-            }
-        </style>
-    </head>
-    <body>
-
-        <div class="clock-container">
-            <div id="clock">00:00:00</div>
-            <div id="date">Loading...</div>
-        </div>
-
-        <script>
-            /**
-             * Function to refresh the time and date
-             */
-            function updateTime() {
-                const now = new Date();
-
-                // Format Time
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                
-                // Update Clock Display
-                document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-
-                // Format Date
-                const options = { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                };
-                document.getElementById('date').textContent = now.toLocaleDateString(undefined, options);
-            }
-
-            // Update the clock immediately on load
-            updateTime();
-
-            // Set the interval to update every 1 second (1000ms)
-            setInterval(updateTime, 1000);
-        </script>
-    </body>
-    </html>
-    
-    Final check of requirements. Everything looks solid. The `font-variant-numeric: tabular-nums;` is a professional touch to prevent the clock numbers from shifting horizontally every second.
-
-    *Instruction Check*: "Return ONLY the complete HTML code, no markdown formatting, no explanations."
-
-    I will produce the text without the markdown wrapper.<!DOCTYPE html>
+    *   Avoid `font-family: 'Arial'` and use the requested system stack.
+    *   Ensure color contrast is high enough for accessibility.
+    *   Ensure it looks good on iPhone/Android/Desktop.<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Clock</title>
+    <title>Digital Clock | Day 2</title>
     <style>
-        /* Resetting default browser styles */
+        /* CSS Variables for easy customization and consistency */
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            --text-secondary: #636e72;
+            --accent-color: #0984e3;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Basic Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Centering the clock on the screen using Flexbox */
+        /* Body Setup: Centered layout using Flexbox */
         body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f8f9fa; /* Light/white subtle background */
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #212529;
+            padding: 20px;
         }
 
-        /* The main card container */
+        /* Clock Container Card */
         .clock-card {
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             padding: 3rem 2rem;
-            border-radius: 12px;
-            border: 1px solid #e9ecef;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
             text-align: center;
-            width: 90%;
+            width: 100%;
             max-width: 400px;
             transition: transform 0.2s ease;
         }
 
-        /* Subtle hover effect */
+        /* Subtle hover effect for the card */
         .clock-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
         }
 
-        /* Time display styling */
-        #clock {
-            font-size: 3.5rem;
-            font-weight: 600;
-            color: #1a1a1a;
+        /* Time Display Styling */
+        .time-display {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+            color: var(--text-main);
             margin-bottom: 0.5rem;
-            /* Prevents the numbers from jumping horizontally when changing */
-            font-variant-numeric: tabular-nums;
+            font-variant-numeric: tabular-nums; /* Prevents text jumping when numbers change */
         }
 
-        /* Date display styling */
-        #date {
-            font-size: 1rem;
-            color: #6c757d;
+        /* Date Display Styling */
+        .date-display {
+            font-size: 1.1rem;
             font-weight: 400;
-            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Responsive design for mobile devices */
+        /* Label for the project (Small decorative text) */
+        .project-label {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #b2bec3;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Responsive adjustments for mobile devices */
         @media (max-width: 480px) {
-            #clock {
-                font-size: 2.8rem;
+            .time-display {
+                font-size: 3rem;
             }
+            
+            .date-display {
+                font-size: 0.9rem;
+            }
+
             .clock-card {
                 padding: 2rem 1.5rem;
-            }
-            #date {
-                font-size: 0.9rem;
             }
         }
     </style>
@@ -430,40 +143,50 @@
 <body>
 
     <div class="clock-card">
-        <div id="clock">00:00:00</div>
-        <div id="date">Loading...</div>
+        <!-- The time will be injected here by JavaScript -->
+        <div class="time-display" id="time">00:00:00</div>
+        
+        <!-- The date will be injected here by JavaScript -->
+        <div class="date-display" id="date">Monday, January 01</div>
+
+        <div class="project-label">Day 2: Digital Clock</div>
     </div>
 
     <script>
         /**
-         * Updates the HTML elements with the current time and date.
+         * Function to update the clock display
          */
         function updateClock() {
             const now = new Date();
 
-            // 1. Update Time
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            const timeString = `${hours}:${minutes}:${seconds}`;
-            document.getElementById('clock').textContent = timeString;
+            // 1. Handle Time Formatting
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
 
-            // 2. Update Date
+            // Add leading zeros to numbers less than 10 (e.g., "05" instead of "5")
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('time').textContent = timeString;
+
+            // 2. Handle Date Formatting
+            // Options for a clean, professional date string
             const dateOptions = { 
                 weekday: 'long', 
-                year: 'numeric', 
                 month: 'long', 
                 day: 'numeric' 
             };
-            const dateString = now.toLocaleDateString(undefined, dateOptions);
+            const dateString = now.toLocaleDateString('en-US', dateOptions);
             document.getElementById('date').textContent = dateString;
         }
 
-        // Run the function immediately so the user doesn't see a delay
+        // Run the clock immediately so there is no delay on load
         updateClock();
 
-        // Update the clock every 1000 milliseconds (1 second)
+        // Update the clock every 1 second (1000 milliseconds)
         setInterval(updateClock, 1000);
     </script>
 </body>
