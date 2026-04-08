@@ -71,3 +71,4 @@ Consistency > Perfection
 ---
 
 🔥 Follow my journey and give a star if you like this repo!
+| 1 | **Personal Portfolio** | Create a responsive personal portfolio with HTML/CSS | beginner |
