@@ -75,3 +75,4 @@ Consistency > Perfection
 | 2 | **Digital Clock** | Real-time digital clock with JavaScript | beginner |
 | 3 | To-Do List | Simple todo list with local storage | beginner |
 | 4 | Calculator | Basic calculator app |
+| 5 | Quote Generator | Random quote generator |
